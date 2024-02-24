@@ -1,0 +1,32 @@
+version: "3.9"
+services:
+  backend:
+    depends_on:
+      - database
+    env_file: 
+      - ./backend/.env
+    networks:
+      - database
+    build: ./backend
+    image: "kupipodariday-backend"
+    ports:
+      - "4000:4000"
+  frontend:
+    build: ./frontend
+    image: "kupipodariday-frontend"
+    ports:
+      - "8081:80"
+  database:
+    environment:
+      PGDATA: /var/lib/postgresql/data/pgdata
+    volumes:
+      - ./pg-data:/var/lib/postgresql/data/pgdata
+    env_file: 
+      - ./backend/.env
+    networks:
+      - database
+    image: "postgres:12"
+    ports:
+      - "5432:5432"
+networks:
+  database:

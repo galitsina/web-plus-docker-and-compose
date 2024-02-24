@@ -1,7 +1,5 @@
 **node_modules**
 .DS_Store
-.env.local
-.env.deploy
-.env.development.local
-.env.test.local
-.env.production.local
+.env*
+!.env*.example
+pg-data
