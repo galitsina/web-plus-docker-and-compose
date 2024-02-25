@@ -1,6 +1,7 @@
 version: "3.9"
 services:
   backend:
+    container_name: compose-back-container
     depends_on:
       - database
     env_file: 
@@ -11,12 +12,16 @@ services:
     image: "kupipodariday-backend"
     ports:
       - "4000:4000"
+    restart: unless-stopped   
   frontend:
+    container_name: compose-front-container
     build: ./frontend
     image: "kupipodariday-frontend"
     ports:
       - "8081:80"
+    restart: unless-stopped   
   database:
+    container_name: compose-postgres
     environment:
       PGDATA: /var/lib/postgresql/data/pgdata
     volumes:
@@ -28,5 +33,6 @@ services:
     image: "postgres:12"
     ports:
       - "5432:5432"
+    restart: unless-stopped   
 networks:
   database:
