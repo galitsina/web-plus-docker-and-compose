@@ -85,7 +85,7 @@ export class WishlistsService {
       );
     }
 
-    const { name, image, itemsIds, description } = updateWishlistDto;
+    const { name, image, itemsIds } = updateWishlistDto;
     const wishes: Wish[] = [];
     for (const id of itemsIds) {
       const wish = await this.wishesService.findOne(id);
@@ -98,7 +98,6 @@ export class WishlistsService {
 
     wishlist.name = name;
     wishlist.image = image;
-    wishlist.description = description;
     wishlist.items = wishes;
 
     return this.wishlistsRepository.save(wishlist);
