@@ -1,8 +1,8 @@
-import { BadRequestException, Inject, Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable, Logger } from '@nestjs/common';
 import { CreateWishlistDto } from './dto/create-wishlist.dto';
 import { UpdateWishlistDto } from './dto/update-wishlist.dto';
 import { InjectRepository } from '@nestjs/typeorm';
-import { In, Repository } from 'typeorm';
+import { Repository } from 'typeorm';
 import { Wishlist } from './entities/wishlist.entity';
 import { Wish } from 'src/wishes/entities/wish.entity';
 import { WishesService } from 'src/wishes/wishes.service';
@@ -10,6 +10,8 @@ import { UsersService } from 'src/users/users.service';
 
 @Injectable()
 export class WishlistsService {
+  private readonly logger = new Logger(WishlistsService.name);
+
   constructor(
     @InjectRepository(Wishlist)
     private wishlistsRepository: Repository<Wishlist>,
@@ -20,11 +22,12 @@ export class WishlistsService {
   async create(createWishlistDto: CreateWishlistDto, userId: number) {
     const { name, image, itemsIds, description } = createWishlistDto;
     const wishes: Wish[] = [];
+    this.logger.debug('itemsIds', itemsIds);
     for (const id of itemsIds) {
       const wish = await this.wishesService.findOne(id);
       wishes.push(wish);
     }
-
+    this.logger.debug('create in service');
     if (wishes.length !== itemsIds.length) {
       throw new BadRequestException('One or more wishes not found');
     }

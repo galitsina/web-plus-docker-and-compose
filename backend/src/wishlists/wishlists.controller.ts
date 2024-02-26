@@ -8,6 +8,7 @@ import {
   Delete,
   Req,
   UseGuards,
+  Logger,
 } from '@nestjs/common';
 import { WishlistsService } from './wishlists.service';
 import { CreateWishlistDto } from './dto/create-wishlist.dto';
@@ -17,10 +18,13 @@ import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
 @UseGuards(JwtAuthGuard)
 @Controller('wishlists')
 export class WishlistsController {
+  private readonly logger = new Logger(WishlistsController.name);
+
   constructor(private readonly wishlistsService: WishlistsService) {}
 
   @Post()
   create(@Body() createWishlistDto: CreateWishlistDto, @Req() req: any) {
+    this.logger.debug('create in controller');
     return this.wishlistsService.create(createWishlistDto, req.user.id);
   }
 
