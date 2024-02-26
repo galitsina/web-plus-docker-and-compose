@@ -28,11 +28,6 @@ export class Wishlist {
   name: string;
 
   @Column()
-  @IsString()
-  @Length(1, 1500)
-  description: string;
-
-  @Column()
   @IsUrl()
   image: string;
 

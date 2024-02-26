@@ -20,7 +20,7 @@ export class WishlistsService {
   ) {}
 
   async create(createWishlistDto: CreateWishlistDto, userId: number) {
-    const { name, image, itemsIds, description } = createWishlistDto;
+    const { name, image, itemsIds } = createWishlistDto;
     const wishes: Wish[] = [];
     this.logger.debug('itemsIds', itemsIds);
     for (const id of itemsIds) {
@@ -37,7 +37,6 @@ export class WishlistsService {
     return this.wishlistsRepository.save({
       name,
       image,
-      description,
       items: wishes,
       owner,
     });
