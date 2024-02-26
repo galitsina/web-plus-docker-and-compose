@@ -20,15 +20,15 @@ export class WishlistsService {
   ) {}
 
   async create(createWishlistDto: CreateWishlistDto, userId: number) {
-    const { name, image, itemsIds } = createWishlistDto;
+    const { name, image, itemsId } = createWishlistDto;
     const wishes: Wish[] = [];
-    this.logger.debug('itemsIds', itemsIds);
-    for (const id of itemsIds) {
+    this.logger.debug('itemsId', itemsId);
+    for (const id of itemsId) {
       const wish = await this.wishesService.findOne(id);
       wishes.push(wish);
     }
     this.logger.debug('create in service');
-    if (wishes.length !== itemsIds.length) {
+    if (wishes.length !== itemsId.length) {
       throw new BadRequestException('One or more wishes not found');
     }
 
@@ -85,14 +85,14 @@ export class WishlistsService {
       );
     }
 
-    const { name, image, itemsIds } = updateWishlistDto;
+    const { name, image, itemsId } = updateWishlistDto;
     const wishes: Wish[] = [];
-    for (const id of itemsIds) {
+    for (const id of itemsId) {
       const wish = await this.wishesService.findOne(id);
       wishes.push(wish);
     }
 
-    if (wishes.length !== itemsIds.length) {
+    if (wishes.length !== itemsId.length) {
       throw new BadRequestException('One or more wishes not found');
     }
 

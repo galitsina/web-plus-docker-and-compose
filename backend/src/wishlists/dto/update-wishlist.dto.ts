@@ -1,4 +1,4 @@
-import { IsOptional, IsString, IsUrl, Length } from 'class-validator';
+import { IsArray, IsOptional, IsString, IsUrl, Length } from 'class-validator';
 
 export class UpdateWishlistDto {
   @IsOptional()
@@ -16,6 +16,6 @@ export class UpdateWishlistDto {
   description: string;
 
   @IsOptional()
-  @IsOptional()
-  itemsIds: number[];
+  @IsArray()
+  itemsId: number[];
 }
